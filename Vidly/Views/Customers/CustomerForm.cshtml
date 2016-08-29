@@ -1,0 +1,43 @@
+﻿
+@model Vidly.ViewModels.CustomerFormViewModel
+
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Title</h2>
+
+
+@using (Html.BeginForm("Save", "Customers"))
+
+{
+
+    <div class="form-group">
+
+        @Html.LabelFor(m => m.Customer.Name)
+        @*Desta forma terei que colocar todos os atributos de validação, classes etc à la pata*@
+        @*<input type="text" name="@Model.Name" />*@
+        @*Nesta forma a framewoek coloca tudo feito, no que toca a validações*@
+        @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.BirthDate)
+        @Html.TextBoxFor(m => m.Customer.BirthDate, "{0:d MMM yyyy}", new { @class = "form-control" })
+    </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Customer.MemberShipTypeId)
+            @Html.DropDownListFor(m => m.Customer.MemberShipTypeId, new SelectList(Model.MemberShipTypes, "ID", "Name"), "Select Membership Type", new { @class = "form-control" })
+        </div>
+        <div class="checkbox">
+            <label>
+                @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsLetter)  Subscribed to NewsLetter ?
+            </label>
+        </div>
+        @Html.HiddenFor(m => m.Customer.Id)
+        @Html.ActionLink("Back to List", "Index")
+        <button type="submit" class="btn btn-primary">Save</button>
+
+}
