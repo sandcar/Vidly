@@ -41,6 +41,8 @@
     @Html.HiddenFor(m => m.Movie.Id)
     @Html.ActionLink("Back to List", "Index")
     <button type="submit" class="btn btn-primary">Save</button>
+    //Importante para validar post e prevenir ataques crossite injection
+    @Html.AntiForgeryToken();
 }
 
 @*Carregar scripts de validação apenas quando a view tem validação client*@
