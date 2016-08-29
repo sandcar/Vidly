@@ -15,6 +15,7 @@ namespace Vidly.Models
 
         [Display(Name ="Birth Date")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
+        [Min18yearsIfAMember]
         public DateTime? BirthDate { get; set; }
 
         public bool IsSubscribedToNewsLetter { get; set; }
@@ -23,5 +24,35 @@ namespace Vidly.Models
         [Required]
         [Display(Name = "Membership Type")]
         public byte MemberShipTypeId { get; set; }
+    }
+
+    // custom validation;
+
+    public class Min18yearsIfAMember: ValidationAttribute
+    {
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+
+            var customer = (Customer)validationContext.ObjectInstance;
+
+            // outra opção seria implementar enumerador ao invés das props estaticas na classe;
+            if (customer.MemberShipTypeId == MemberShipType.Unknown 
+                || customer.MemberShipTypeId == MemberShipType.PayasYouGo)
+                return ValidationResult.Success;
+
+            if (customer.BirthDate == null)
+                return new ValidationResult("Birthday is required");
+
+            // maiores de 18;
+
+            var age = customer.BirthDate.Value.Year - DateTime.Now.Year;
+
+            return (age >= 18 
+                ? ValidationResult.Success 
+                : new ValidationResult("Customer should be at least 18 years old"));
+
+        }
+
     }
 }

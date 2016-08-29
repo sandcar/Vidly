@@ -16,5 +16,11 @@ namespace Vidly.Models
         public short SignUpFee { get; set; }
         public byte DurationInMonths { get; set; }
         public byte DiscontRate { get; set; }
+
+        // para propositos de validacao. ver Customer class / custom validation
+        // outra opção seria implementar enumerador;
+        public static readonly byte Unknown = 0;
+        public static readonly byte PayasYouGo = 1;
+
     }
 }

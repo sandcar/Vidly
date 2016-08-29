@@ -9,6 +9,10 @@
 
 @using (Html.BeginForm("Save", "Movies"))
 {
+    //Versão simples com lista de erros;
+    @*@Html.ValidationSummary();*@
+    @Html.ValidationSummary(true, "Please fix the following errors");
+
     <div class="form-group">
 
         @Html.LabelFor(m => m.Movie.Name)
