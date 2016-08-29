@@ -259,6 +259,10 @@
     <Compile Include="Migrations\201608291009494_CorrectionPopulateMovies21.Designer.cs">
       <DependentUpon>201608291009494_CorrectionPopulateMovies21.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608291441119_ColumnNameOnMovieTableRequired.cs" />
+    <Compile Include="Migrations\201608291441119_ColumnNameOnMovieTableRequired.Designer.cs">
+      <DependentUpon>201608291441119_ColumnNameOnMovieTableRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -395,6 +399,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608291009494_CorrectionPopulateMovies21.resx">
       <DependentUpon>201608291009494_CorrectionPopulateMovies21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608291441119_ColumnNameOnMovieTableRequired.resx">
+      <DependentUpon>201608291441119_ColumnNameOnMovieTableRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
