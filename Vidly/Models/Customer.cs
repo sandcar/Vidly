@@ -15,7 +15,7 @@ namespace Vidly.Models
 
         [Display(Name ="Birth Date")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
-        [Min18yearsIfAMember]
+        //[Min18yearsIfAMember]
         public DateTime? BirthDate { get; set; }
 
         public bool IsSubscribedToNewsLetter { get; set; }
