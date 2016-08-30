@@ -41,6 +41,13 @@ namespace Vidly.Controllers.Api
         [HttpPost]
         public Customer CreateCustomer(Customer customer)
         {
+            string BirdtDate = customer.BirthDate.ToString();
+            DateTime t;
+            if(DateTime.TryParse(BirdtDate, out t))
+            {
+                customer.BirthDate = t;
+            }
+
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
@@ -76,7 +83,7 @@ namespace Vidly.Controllers.Api
 
         // DELETE/Aoi/Customers/1
         [HttpDelete]
-        public void dELETECustomer(int id)
+        public void DeleteCustomer(int id)
         {
 
             var customerInDb = _context.Customers.Single(c => c.Id == id);
