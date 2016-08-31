@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Data.Entity;
 using Vidly.Dtos;
 using Vidly.Models;
 
@@ -25,7 +26,8 @@ namespace Vidly.Controllers.Api
         // Get/Aoi/Customers
         public IHttpActionResult GetCustomers()
         {
-            var customerDtos = _context.Customers.ToList()
+            var customerDtos = _context.Customers
+                .Include(c => c.MemberShipType).ToList()
                 .Select(Mapper.Map<Customer, CustomerDto>);
 
             return Ok(customerDtos);

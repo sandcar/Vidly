@@ -35,8 +35,11 @@ namespace Vidly.Controllers
             //var customers = _context.Customers.ToList();
 
             // para carregar a lista de customers + referencia a membershiptypes
-            var customers = _context.Customers.Include(c => c.MemberShipType).ToList();
-            return View(customers);
+            //var customers = _context.Customers.Include(c => c.MemberShipType).ToList();
+            //return View(customers);
+
+            // Substitui codigo acima. suporte a lista é dado por api e jquery.datatables
+            return View();
         }
 
         public ActionResult Details(int id)

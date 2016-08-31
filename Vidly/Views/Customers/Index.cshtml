@@ -11,50 +11,81 @@
     @Html.ActionLink("Create New", "New")
 </p>
 
-@if (!Model.Any())
-{
-    <p>We don't have any customers yet.</p>
-}
-else
-{
-
-
-    <table class="table">
+<table class="table table-striped" id="customers">
+    <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Name
             </th>
             <th>
                 Membership Type
             </th>
-            <th>
-               Discount Rate
-            </th>
             <th></th>
         </tr>
+    </thead>
+    <tbody></tbody>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MemberShipType.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MemberShipType.DiscontRate)%
-                </td>
-               
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-        }
 
-    </table>
+</table>
+
+@section scripts{
+
+    <script>
+
+        $(function () {
+
+            var $maintable = $('#customers');
+
+           var dtable = $maintable.DataTable({
+                ajax: {
+                    url: "/api/customers/",
+                    dataSrc: ""
+                },
+                columns: [
+                            {
+                                data: "name",
+                                render: function (data, type, customer) {
+                                    // customer.id ou apenas data;
+                                    return "<a href='customers/edit/" + customer.id + "'>" + data + "</a>"
+                                }
+                            },
+                            {
+                                data: "memberShipType.name"
+                            },
+                            {
+                                data: "id",
+                                render: function (data) {
+                                    return "<button class='btn btn-link js-Delete' data-customer-id='" + data + "'>Delete</button>"
+                                }
+                            }
+                ]
+
+
+            });
+
+            $maintable.on('click', '.js-Delete', function (e) {
+
+                var $btn = $(this);
+
+                bootbox.confirm("Are you shore that you whant to delete this customer?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/customers/" + $btn.data("customer-id"),
+                            method: "DELETE",
+                            success: function () {
+
+                                dtable.row($btn.parents("tr")).remove().draw();
+                                //$btn.parents("tr").remove();
+                                console.log("success")
+                            }
+                        });
+                    }
+
+                });
+            });
+
+        })
+
+    </script>
 
 }
-
