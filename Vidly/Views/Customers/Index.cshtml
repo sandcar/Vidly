@@ -29,63 +29,13 @@
 </table>
 
 @section scripts{
+<script src="~/Scripts/Custom/appcore.ui.utils.js"></script>
 
     <script>
-
-        $(function () {
-
-            var $maintable = $('#customers');
-
-           var dtable = $maintable.DataTable({
-                ajax: {
-                    url: "/api/customers/",
-                    dataSrc: ""
-                },
-                columns: [
-                            {
-                                data: "name",
-                                render: function (data, type, customer) {
-                                    // customer.id ou apenas data;
-                                    return "<a href='customers/edit/" + customer.id + "'>" + data + "</a>"
-                                }
-                            },
-                            {
-                                data: "memberShipType.name"
-                            },
-                            {
-                                data: "id",
-                                render: function (data) {
-                                    return "<button class='btn btn-link js-Delete' data-customer-id='" + data + "'>Delete</button>"
-                                }
-                            }
-                ]
-
-
-            });
-
-            $maintable.on('click', '.js-Delete', function (e) {
-
-                var $btn = $(this);
-
-                bootbox.confirm("Are you shore that you whant to delete this customer?", function (result) {
-                    if (result) {
-                        $.ajax({
-                            url: "/api/customers/" + $btn.data("customer-id"),
-                            method: "DELETE",
-                            success: function () {
-
-                                dtable.row($btn.parents("tr")).remove().draw();
-                                //$btn.parents("tr").remove();
-                                console.log("success")
-                            }
-                        });
-                    }
-
-                });
-            });
-
-        })
-
+        AppCore.ui.utils.tables.
+Init({
+    tableID: '#customers',
+    contract: 'customers'
+});
     </script>
-
 }
