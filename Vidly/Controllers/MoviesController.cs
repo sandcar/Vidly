@@ -9,7 +9,7 @@ using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
-    
+
     public class MoviesController : Controller
     {
 
@@ -185,12 +185,24 @@ namespace Vidly.Controllers
                 movieInDb.GenreId = movie.GenreId;
                 movieInDb.ReleaseDate = movie.ReleaseDate;
                 movieInDb.NumberInStock = movie.NumberInStock;
-               // movieInDb.DateAdded = DateTime.Now;
+                // movieInDb.DateAdded = DateTime.Now;
             }
 
 
             _context.SaveChanges();
 
+            return RedirectToAction("Index", "Movies");
+        }
+
+        public ActionResult Delete(int id)
+        {
+
+            Movie movie = _context.Movies.Find(id);
+            if (movie != null)
+            {
+                _context.Movies.Remove(movie);
+                _context.SaveChanges();
+            }
             return RedirectToAction("Index", "Movies");
         }
 

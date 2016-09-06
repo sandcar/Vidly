@@ -15,6 +15,9 @@ namespace Vidly.Models
         [Required]
         [StringLength(255)]
         public string DrivingLicence { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string Phone { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -25,21 +28,5 @@ namespace Vidly.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Movie> Movies { get; set; }
-        public DbSet<MemberShipType> MemberShipTypes { get; set; }
-        public DbSet<Genre> Genres { get; set; }
-
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
-        {
-        }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
-    }
+   
 }
