@@ -7,7 +7,13 @@ namespace Vidly
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
+            // redireciona quando existem excptions
             filters.Add(new HandleErrorAttribute());
+            // restrição autenticação
+            filters.Add(new AuthorizeAttribute());
+
+            // permitir apenas enderecos https
+            filters.Add(new RequireHttpsAttribute());
         }
     }
 }

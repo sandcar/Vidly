@@ -9,6 +9,7 @@ using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
+    
     public class MoviesController : Controller
     {
 
@@ -73,7 +74,7 @@ namespace Vidly.Controllers
              */
         }
 
-
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Edit(int id)
         {
 
@@ -117,7 +118,13 @@ namespace Vidly.Controllers
 
             var movies = _context.Movies.Include(m => m.Genre).ToList();
 
-            return View(movies);
+            if (User.IsInRole("CanManageMovies"))
+                return View("List", movies);
+
+            return View("ListReadOnly", movies);
+
+
+
         }
 
         public ActionResult Details(int id)
@@ -129,6 +136,7 @@ namespace Vidly.Controllers
             return View(movie);
         }
 
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult New()
         {
 

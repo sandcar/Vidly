@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Vidly.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Vidly.Controllers
 {
@@ -151,11 +152,29 @@ namespace Vidly.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                { UserName = model.Email,
+                    Email = model.Email,
+                    DrivingLicence = model.DrivingLicence
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                    // temp code;
+                    // codigo usado temporariamente para criar 2 users iniciais e roles na aplicação
+                    // ewxemplo : guest e admin
+                    // Depois de criado este codigo deve ser removido ou comentado;
+                    // De seguida deve ser criado uma migrations (ex: SeedUsers ) e gerar sql a partir dos dados nas tabelas Aspnetusers,AspnetRoles,AspnetUserRoles
+                    // para colocar na migrations
+
+                    //string identityRole = "CanManageMovies";
+                    //var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                    //var roleManager = new RoleManager<IdentityRole>(roleStore);
+                    //await roleManager.CreateAsync(new IdentityRole(identityRole));
+                    //await UserManager.AddToRoleAsync(user.Id, identityRole);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -367,7 +386,7 @@ namespace Vidly.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, DrivingLicence = model.DrivingLicence };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
