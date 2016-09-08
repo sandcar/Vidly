@@ -25,14 +25,33 @@ namespace Vidly.Controllers.Api
         }
 
         // GET: api/Movies
-        public IHttpActionResult GetMovies()
+        // Get/Aoi/Customers: Nota se quiser utilizar as 2 assinaturas na webapi, tenho que configurar as tabelas de root
+        //public IHttpActionResult GetMovies()
+        //{
+        //   // return _context.Movies;
+
+        //    var movieDtos = _context.Movies.ToList()
+        //      .Select(Mapper.Map<Movie, MovieDto>);
+
+        //    return Ok(movieDtos);
+        //}
+
+        // Get/Aoi/Movies&query=
+        public IHttpActionResult GetMovies(string query = null)
         {
-           // return _context.Movies;
 
-            var movieDtos = _context.Movies.ToList()
-              .Select(Mapper.Map<Movie, MovieDto>);
+            var moviesQuery = _context.Movies
+                .Include(c => c.Genre)
+                .Where(m => m.NumberAvailable > 0);
 
-            return Ok(movieDtos);
+            if (!String.IsNullOrWhiteSpace(query))
+                moviesQuery = moviesQuery.Where(c => c.Name.Contains(query));
+
+            var movieDtos = moviesQuery.ToList()
+                .Select(Mapper.Map<Movie, MovieDto>);
+
+            return Ok(moviesQuery);
+
         }
 
         // GET: api/Movies/5
