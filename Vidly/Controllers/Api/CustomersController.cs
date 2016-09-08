@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Data.Entity;
 using System.Web.Http;
 using System.Data.Entity;
 using Vidly.Dtos;
 using Vidly.Models;
+
 
 namespace Vidly.Controllers.Api
 {
@@ -23,14 +25,30 @@ namespace Vidly.Controllers.Api
 
         }
 
-        // Get/Aoi/Customers
-        public IHttpActionResult GetCustomers()
+        // Get/Aoi/Customers: Nota se quiser utilizar as 2 assinaturas na webapi, tenho que configurar as tabelas de root
+        //public IHttpActionResult GetCustomers()
+        //{
+        //    var customerDtos = _context.Customers
+        //        .Include(c => c.MemberShipType).ToList()
+        //        .Select(Mapper.Map<Customer, CustomerDto>);
+
+        //    return Ok(customerDtos);
+        //}
+
+        // Get/Aoi/Customers&query=
+        public IHttpActionResult GetCustomers(string query = null)
         {
-            var customerDtos = _context.Customers
-                .Include(c => c.MemberShipType).ToList()
+
+            var customersQuery = _context.Customers.Include(c => c.MemberShipType);
+
+            if (!String.IsNullOrWhiteSpace(query))
+                customersQuery = customersQuery.Where(c => c.Name.Contains(query));
+
+            var customerDtos = customersQuery.ToList()
                 .Select(Mapper.Map<Customer, CustomerDto>);
 
             return Ok(customerDtos);
+
         }
 
         // Get/Aoi/Customers/1
