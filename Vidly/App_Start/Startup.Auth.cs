@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Vidly.Models;
+using System.Configuration;
 
 namespace Vidly
 {
@@ -34,7 +35,7 @@ namespace Vidly
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -56,7 +57,16 @@ namespace Vidly
 
             app.UseFacebookAuthentication(
                appId: "1037819546316791",
-               appSecret: "e555c2354afbf18806f8c7393eba7c08");
+               appSecret: "e555c2354afbf18806f8c7393eba7c08"
+               );
+
+            /// pode ser colocado no webconfig para melhor manutenção, ( não está agora porque está no github)
+            /// 
+
+            //ConfigurationManager.AppSettings["FacebookAppId"],
+            //< add key = "FacebookAppId" value = "1037819546316791" />
+            //ConfigurationManager.AppSettings["FacebookAppSecret"]
+            // < add key = "FacebookAppSecret" value = "e555c2354afbf18806f8c7393eba7c08" />
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
